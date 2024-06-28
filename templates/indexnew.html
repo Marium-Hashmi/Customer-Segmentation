@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://demos.pixinvent.com/stack-html-admin-template/app-assets/css/plugins/forms/wizard.min.css">
+    <link rel="stylesheet"
+        href="https://demos.pixinvent.com/stack-html-admin-template/app-assets/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://demos.pixinvent.com/stack-html-admin-template/app-assets/css/components.min.css">
+    <link rel="stylesheet"
+        href="https://demos.pixinvent.com/stack-html-admin-template/app-assets/css/core/menu/menu-types/vertical-menu-modern.css">
+    <style>
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .col {
+            flex: 1;
+            padding: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            /* Light grey */
+            border-top: 4px solid #3498db;
+            /* Blue */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            display: none;
+            /* Hidden by default */
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .header-navbar .navbar-header .navbar-brand .brand-text {
+            display: inline;
+            padding-left: 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .navbar-semi-dark .navbar-header .brand-text {
+            color: #FFF;
+        }
+
+        .header-navbar {
+            padding: 0;
+            min-height: 4rem;
+            font-family: Montserrat, Georgia, 'Times New Roman', Times, serif;
+            -webkit-transition: .3s ease all;
+            transition: .3s ease all;
+        }
+
+        .navbar-semi-dark {
+            background: #404E67;
+            height: 56px;
+        }
+
+        .navbar-semi-dark .navbar-header {
+            background: #404E67;
+        }
+
+        .header-navbar .navbar-header {
+            width: 240px;
+            height: 4rem;
+            float: left;
+            position: relative;
+            padding: 0 1rem;
+            -webkit-transition: .3s ease all;
+            transition: .3s ease all;
+        }
+
+        .summary-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .summary-container>div {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .summary-container>div:last-child {
+            margin-right: 0;
+        }
+
+        body {
+            font-family: Montserrat, Georgia, 'Times New Roman', Times, serif;
+        }
+    </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern 2-columns fixed-navbar  menu-expanded pace-done">
+    <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
+        <div class="navbar-wrapper">
+            <div class="navbar-container content">
+                <div class="navbar-header expanded" style="left:100%; padding-top:10px">
+                    <div class="navbar-brand">
+                        <h2 class="brand-text">Predictive Customer Segmentation in Risk Analysis</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow expanded" data-scroll-to-active="true"
+        style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+        <div class="main-menu-content ps ps--active-y">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+                <li class=" navigation-header"><span>Engine</span><i class=" feather icon-minus" data-toggle="tooltip"
+                        data-placement="right" data-original-title="General"></i>
+                </li>
+                <li onclick="nextStep(0)" class="active nav-item"><a><i class="fas fa-upload"></i><span
+                            class="menu-title" data-i18n="Email Application">Data Upload</span></a>
+                </li>
+                <li onclick="nextStep(1)" class=" nav-item"><a><i class="fas fa-cogs"></i><span class="menu-title"
+                            data-i18n="Email Application">Preprocess Data</span></a>
+                </li>
+                <li onclick="nextStep(2)" class=" nav-item"><a><i class="fas fa-compress-arrows-alt"></i><span
+                            class="menu-title" data-i18n="Email Application">Dimensionality Reduction</span></a>
+                </li>
+                <li onclick="nextStep(3)" class=" nav-item"><a><i class="fas fa-project-diagram"></i><span
+                            class="menu-title" data-i18n="Email Application">Clustering</span></a>
+                </li>
+                <li onclick="nextStep(4)" class=" nav-item"><a><i class="fas fa-chart-bar"></i><span class="menu-title"
+                            data-i18n="Email Application">Results & Visualization</span></a>
+                </li>
+                <li class=" navigation-header"><span>API Integration</span><i class=" feather icon-minus"
+                        data-toggle="tooltip" data-placement="right" data-original-title="Apps"></i>
+                </li>
+                <li onclick="nextStep(5)" class=" nav-item"><a><i class="fas fa-code"></i><span class="menu-title"
+                            data-i18n="Email Application">Push Customer</span></a>
+                </li>
+            </ul>
+            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <div class="ps__rail-y" style="top: 0px; height: 674px; right: 0px;">
+                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 217px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-body" style="width: -webkit-fill-available;">
+                    <section id="icon-tabs">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <!-- <div class="card-header">
+                                        <h4 class="card-title">Customer Segmentation</h4>
+                                    </div> -->
+                                    <div class="card-content collapse show">
+                                        <div class="card-body">
+                                            <form action="#"
+                                                class="vertical-tab-steps wizard-circle wizard clearfix vertical"
+                                                role="application" id="steps-uid-1">
+                                                <!-- <div class="steps clearfix">
+                                                    <ul role="tablist">
+                                                        <li role="tab" class="first current" aria-disabled="false"
+                                                            aria-selected="true"><a id="steps-uid-1-t-0"
+                                                                href="#steps-uid-1-h-0"
+                                                                aria-controls="steps-uid-1-p-0"><span
+                                                                    class="current-info audible">current step:
+                                                                </span><span class="step"><i
+                                                                        class="step-icon fas fa-upload"></i></span>
+                                                                Upload Data</a></li>
+                                                        <li role="tab" class="disabled" aria-disabled="true"><a
+                                                                id="steps-uid-1-t-1" href="#steps-uid-1-h-1"
+                                                                aria-controls="steps-uid-1-p-1"><span class="step"><i
+                                                                        class="step-icon fas fa-cogs"></i></span>
+                                                                Preprocess Data</a></li>
+                                                        <li role="tab" class="disabled" aria-disabled="true"><a
+                                                                id="steps-uid-1-t-2" href="#steps-uid-1-h-2"
+                                                                aria-controls="steps-uid-1-p-2"><span class="step"><i
+                                                                        class="step-icon fas fa-compress-arrows-alt"></i></span>
+                                                                Dimensionality Reduction</a></li>
+                                                        <li role="tab" class="disabled" aria-disabled="true"><a
+                                                                id="steps-uid-1-t-3" href="#steps-uid-1-h-3"
+                                                                aria-controls="steps-uid-1-p-3"><span class="step"><i
+                                                                        class="step-icon fas fa-project-diagram"></i></span>
+                                                                Clustering</a></li>
+                                                        <li role="tab" class="disabled" aria-disabled="true"><a
+                                                                id="steps-uid-1-t-4" href="#steps-uid-1-h-4"
+                                                                aria-controls="steps-uid-1-p-4"><span class="step"><i
+                                                                        class="step-icon fas fa-chart-bar"></i></span>
+                                                                Results & Visualization</a></li>
+                                                        <li role="tab" class="disabled last" aria-disabled="true"><a
+                                                                    id="steps-uid-1-t-5" href="#steps-uid-1-h-5"
+                                                                    aria-controls="steps-uid-1-p-5"><span class="step"><i
+                                                                            class="step-icon fas fa-code"></i></span>
+                                                                    API Integration</a></li>
+                                                    </ul>
+                                                </div> -->
+                                                <div class="content clearfix">
+
+                                                    <!-- Step 1 -->
+                                                    <h6 id="steps-uid-1-h-0" tabindex="-1" class="title current"><i
+                                                            class="step-icon fa fa-home"></i> Upload Data</h6>
+                                                    <fieldset id="steps-uid-1-p-0" role="tabpanel"
+                                                        aria-labelledby="steps-uid-1-h-0" class="body current"
+                                                        aria-hidden="false">
+                                                        <div class="row">
+                                                            <div style="width: 100%;">
+                                                                <h3>Data Upload</h3>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <!-- <h4>Step 1: Upload Your Data File</h4> -->
+                                                                <div class="form-group">
+                                                                    <label for="file">Choose XLSX File</label>
+                                                                    <input type="file" class="form-control-file"
+                                                                        id="file" name="file" accept=".xlsx">
+                                                                </div>
+                                                                <div id="loader1" class="loader"></div>
+                                                                <div class="form-group">
+                                                                    <div id="plot"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+
+                                                    <!-- Step 2 -->
+                                                    <h6 id="steps-uid-1-h-1" tabindex="-1" class="title"><i
+                                                            class="step-icon fa fa-pencil"></i>Preprocess Data</h6>
+                                                    <fieldset id="steps-uid-1-p-1" role="tabpanel"
+                                                        aria-labelledby="steps-uid-1-h-1" class="body"
+                                                        style="display: none;" aria-hidden="false">
+                                                        <!-- Data Preview -->
+                                                        <h3>Data Preview</h3>
+                                                        <div id="dataPreview"></div>
+                                                        <div id="loader2" class="loader"></div>
+                                                        <div class="summary-container mt-3">
+                                                            <div id="dataTypesSummary"></div>
+                                                            <div id="missingValuesSummary"></div>
+                                                        </div>
+                                                        <div id="dataTypesSummary" class="mt-3"></div>
+                                                        <div id="describeSummary" class="mt-3"></div>
+
+                                                        <!-- Missing Values Handling -->
+                                                        <h3>Missing Values Handling</h3>
+                                                        <div>
+                                                            <div id="missingValuesSummary"></div>
+                                                            <!-- <button id="fillMissingValues" class="btn btn-primary">Fill
+                                                                Missing Values</button> -->
+                                                            <button id="dropMissingValues" class="btn btn-danger">Drop
+                                                                Columns with Missing Values</button>
+                                                        </div>
+
+                                                        <!-- Data Transformation -->
+                                                        <h3>Data Transformation</h3>
+                                                        <div>
+                                                            <button id="parseDates" class="btn btn-secondary">Parse Date
+                                                                Columns</button>
+                                                            <button id="encodeCategorical"
+                                                                class="btn btn-secondary">Encode
+                                                                Categorical Variables</button>
+                                                            <!-- <button id="scaleNormalize"
+                                                                class="btn btn-secondary">Scale/Normalize Numerical
+                                                                Columns</button> -->
+                                                        </div>
+                                                        <div id="dataPreview2"></div>
+
+                                                        <!-- Filtering and Subsetting -->
+                                                        <!-- <h3>Filtering and Subsetting</h3>
+                                                        <div>
+                                                            <button id="selectColumns" class="btn btn-secondary">Select
+                                                                Columns</button>
+                                                            <button id="filterRows" class="btn btn-secondary">Filter
+                                                                Rows</button>
+                                                        </div> -->
+
+                                                        <!-- Outlier Detection -->
+                                                        <h3>Outlier Detection</h3>
+                                                        <div id="outlierDetection">
+                                                            <button id="detectOutliers" class="btn btn-warning">Detect
+                                                                Outliers</button>
+                                                            <button id="handleOutliers" class="btn btn-warning">Handle
+                                                                Outliers</button>
+                                                        </div>
+
+                                                        <!-- Feature Engineering -->
+                                                        <h3>Feature Engineering</h3>
+                                                        <div>
+                                                            <button id="createNewFeatures"
+                                                                class="btn btn-secondary">Create
+                                                                New Features</button>
+                                                        </div>
+                                                        <div id="fileInfo"></div>
+                                                    </fieldset>
+                                                    <!-- <fieldset id="steps-uid-1-p-1" role="tabpanel"
+                                                        aria-labelledby="steps-uid-1-h-1" class="body"
+                                                        aria-hidden="true" style="display: none;">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                            </div>
+                                                        </div>
+                                                    </fieldset> -->
+
+                                                    <!-- Step 3 -->
+                                                    <h6 id="steps-uid-1-h-2" tabindex="-1" class="title"><i
+                                                            class="step-icon fa fa-tv"></i>Dimensionality Reduction</h6>
+                                                    <fieldset id="steps-uid-1-p-2" role="tabpanel"
+                                                        aria-labelledby="steps-uid-1-h-2" class="body"
+                                                        aria-hidden="true" style="display: none;">
+                                                        <div class="row">
+                                                            <div style="width: 100%;">
+                                                                <h3>Dimensionality Reduction</h3>
+                                                            </div>
+                                                            <div id="loader3" class="loader"></div>
+                                                            <div class="col-md-12">
+                                                                <div id="fileInfoDR"></div>
+                                                                <div id="dataPreviewDR" class="mt-3"></div>
+                                                                <div class="summary-container mt-3">
+                                                                    <div id="dataTypesSummaryDR"></div>
+                                                                    <div id="missingValuesSummaryDR"></div>
+                                                                </div>
+                                                                <div id="describeSummaryDR" class="mt-3"></div>
+
+                                                                <div class="plot-container">
+                                                                    <div id="scatterPlotBefore" class="mt-3"></div>
+                                                                    <div id="scatterPlotAfter" class="mt-3"></div>
+                                                                    <div id="explainedVariancePlot" class="mt-3"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+
+                                                    <!-- Step 4 -->
+                                                    <h6 id="steps-uid-1-h-3" tabindex="-1" class="title"><i
+                                                            class="step-icon fa fa-image"></i>Clustering</h6>
+                                                    <fieldset id="steps-uid-1-p-3" role="tabpanel"
+                                                        aria-labelledby="steps-uid-1-h-3" class="body"
+                                                        aria-hidden="true" style="display: none;">
+                                                        <div class="row">
+                                                            <div style="width: 100%;">
+                                                                <h3>Customer Segmentation and Anomaly Detection</h3>
+                                                            </div>
+                                                            <div id="loader4" class="loader"></div>
+                                                            <!-- <h2>Silhouette Score: <span id="silhouette-score"></span></h2> -->
+                                                            <div id="clustering-plot"></div>
+                                                        </div>
+                                                    </fieldset>
+
+                                                    <!-- Step 5 -->
+                                                    <h6 id="steps-uid-1-h-4" tabindex="-1" class="title"><i
+                                                            class="step-icon fa fa-image"></i>Step 5</h6>
+                                                    <fieldset id="steps-uid-1-p-4" role="tabpanel"
+                                                        aria-labelledby="steps-uid-1-h-4" class="body"
+                                                        aria-hidden="true" style="display: none;">
+                                                        <div class="row">
+                                                            <!-- <div style="width: 100%;">
+                                                                <h3>Visualization</h3>
+                                                            </div>
+                                                            <div id="loader5" class="loader"></div>
+                                                            <div id="visualization-plot"></div> -->
+
+                                                            <div style="width: 100%;">
+                                                                <h3>Cluster Analysis</h3>
+                                                            </div>
+                                                            <div style="width: 100%;">
+                                                            <button type="button"
+                                                                    class="float-right btn btn-primary btn-min-width mt-1"
+                                                                    onclick="cluster_analysis()">Load Charts 
+                                                                    <!-- <div id="loader" class="loader"></div> -->
+                                                                </button>
+                                                            </div>
+                                                            <!-- <button id="loadChartsBtn">Load Charts</button> -->
+                                                            <div style="width: 100%;">
+                                                                <label for="riskLevel">Select Risk Level:</label>
+                                                                <select id="riskLevel">
+                                                                    <option value="High Risk">High</option>
+                                                                    <option value="Medium Risk">Medium</option>
+                                                                    <option value="Low Risk">Low</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="width: 100%;">
+                                                                <div id="chartsContainer"></div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+
+                                                    <!-- Step 6 -->
+                                                    <h6 id="steps-uid-1-h-5" tabindex="-1" class="title"><i
+                                                            class="step-icon fa fa-image"></i>Step 6</h6>
+                                                    <fieldset id="steps-uid-1-p-5" role="tabpanel"
+                                                        aria-labelledby="steps-uid-1-h-5" class="body"
+                                                        aria-hidden="true" style="display: none;">
+                                                        <h3>Data Push</h3>
+                                                        <div class="row">
+                                                            <textarea id="jsonData" style="width: 100%;height: 400px;"
+                                                                class="ng-untouched ng-pristine ng-valid"></textarea>
+                                                            <div style="width: 100%;"><button type="button"
+                                                                    class="float-right btn btn-primary btn-min-width mt-1"
+                                                                    onclick="predict()">Post <div id="loader"
+                                                                        class="loader"></div></button></div>
+                                                            <div id="prediction"></div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="actions clearfix">
+                                                    <ul role="menu" aria-label="Pagination">
+                                                        <!-- <li class="disabled" aria-disabled="true"><a
+                                                                href="javascript:void(0)" onclick="prevStep()"
+                                                                role="menuitem">Previous</a></li> -->
+                                                        <!-- <li aria-hidden="false" aria-disabled="false"><a
+                                                                href="javascript:void(0)" onclick="nextStep()"
+                                                                role="menuitem">Next</a></li>
+                                                        <li aria-hidden="true" style="display: none;"><a href="#finish"
+                                                                role="menuitem">Submit</a></li> -->
+                                                    </ul>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let currentStep = 0;
+        const totalSteps = 5;
+        $(document).ready(function () {
+            fileInput();
+            setJsonInTextarea();
+        });
+        function nextStep(index) {
+            for (const element of document.getElementsByClassName("nav-item")) {
+                element.className = 'nav-item';
+            }
+            document.getElementsByClassName('nav-item')[index].className = 'nav-item active';
+            // $('#steps-uid-1-p-' + currentStep).toggleClass('current');
+            $('fieldset[role="tabpanel"]').hide();
+            $('#steps-uid-1-p-' + index).toggleClass('current');
+            $('#steps-uid-1-p-' + index).show();
+            if (index == 1) {
+                dataPreview();
+            } else if (index == 2) {
+                dimensionalityReduction();
+            } else if (index == 3) {
+                perform_clustering();
+            } else if (index == 4) {
+                // visualization();
+            }
+        }
+
+        function dataPreview() {
+            const loader = document.getElementById('loader2');
+            loader.style.display = 'inline-block'; // Show loader
+            $.ajax({
+                url: '/dataPreview',
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    loader.style.display = 'none';
+                    displayDataPreview(response.data_head, '');
+                    displayMissingValuesSummary(response.missing_values, '');
+                    displayDataTypesSummary(response.data_types, '');
+                    displayDescribeSummary(response.describe, '');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        }
+
+        function displayDataTypesSummary(data, suffix) {
+            var dataTypes = JSON.parse(data);
+            var summary = '<h3>Data Types Summary</h3><ul>';
+
+            for (var column in dataTypes) {
+                summary += '<li>' + column + ': ' + dataTypes[column] + '</li>';
+            }
+
+            summary += '</ul>';
+            $('#dataTypesSummary' + suffix).html(summary);
+        }
+
+        function displayDescribeSummary(data, suffix) {
+            var jsonData = JSON.parse(data);
+            var columns = jsonData.columns;
+            var index = jsonData.index;
+            var data = jsonData.data;
+
+            var table = '<h3>Descriptive Statistics</h3><table class="table-responsive row-border hover table table-striped table-bordered"><thead><tr>';
+            table += '<th></th>';
+            columns.forEach(function (column) {
+                table += '<th>' + column + '</th>';
+            });
+            table += '</tr></thead><tbody>';
+
+            data.forEach(function (row, idx) {
+                table += '<tr>';
+                table += '<td>' + index[idx] + '</td>';
+                row.forEach(function (cell) {
+                    table += '<td>' + cell + '</td>';
+                });
+                table += '</tr>';
+            });
+
+            table += '</tbody></table>';
+            $('#describeSummary' + suffix).html(table);
+        }
+
+        function displayMissingValuesSummary(data, suffix) {
+            var missingValues = JSON.parse(data);
+            var summary = '<h3>Missing Values Summary</h3><ul>';
+
+            for (var column in missingValues) {
+                summary += '<li>' + column + ': ' + missingValues[column] + ' missing values</li>';
+            }
+
+            summary += '</ul>';
+            $('#missingValuesSummary' + suffix).html(summary);
+        }
+
+        function displayDataPreview(data, suffix) {
+            var jsonData = JSON.parse(data);
+            var columns = jsonData.columns;
+            var index = jsonData.index;
+            var data = jsonData.data;
+
+            var table = '<table class="table-responsive row-border hover table table-striped table-bordered"><thead><tr>';
+            columns.forEach(function (column) {
+                table += '<th>' + column + '</th>';
+            });
+            table += '</tr></thead><tbody>';
+
+            data.forEach(function (row) {
+                table += '<tr>';
+                row.forEach(function (cell) {
+                    table += '<td>' + cell + '</td>';
+                });
+                table += '</tr>';
+            });
+
+            table += '</tbody></table>';
+            $('#dataPreview' + suffix).html(table);
+        }
+
+        function fileInput() {
+            $('#file').on('change', function (event) {
+                const loader = document.getElementsByClassName('loader')[0];
+                loader.style.display = 'inline-block'; // Show loader
+                var file = event.target.files[0];
+                if (file) {
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    $.ajax({
+                        url: '/upload',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        // xhrFields: {
+                        //     responseType: 'blob' // Important to handle binary data
+                        // },
+                        success: function (data) {
+                            $('#plot').html('');
+                            loader.style.display = 'none'; // Hide loader
+                            data.forEach(function (base64Image) {
+                                $('#plot').append('<img src="data:image/png;base64,' + base64Image + '"/><br>');
+                            });
+                            console.log($('#plot').html());
+                            // var reader = new FileReader();
+                            // reader.onload = function(e) {
+                            //     var base64Data = e.target.result.split(',')[1];
+                            //     $('#plot').html('<img src="data:image/png;base64,' + base64Data + '"/>');
+                            // };
+                            // reader.readAsDataURL(blob); // Convert the blob to base64
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#fileInfo').html('<p>Error: ' + textStatus + '</p>');
+                        }
+                    });
+                } else {
+                    console.log('No file selected.')
+                }
+            });
+        }
+
+        $('#dropMissingValues').on('click', function () {
+            $.ajax({
+                url: '/drop-missing-columns',
+                type: 'POST',
+                success: function (response) {
+                    displayDataPreview(response.data_head, '');
+                    displayMissingValuesSummary(response.missing_values, '');
+                    displayDataTypesSummary(response.data_types, '');
+                    displayDescribeSummary(response.describe, '');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+
+        $('#encodeCategorical').on('click', function () {
+            $.ajax({
+                url: '/encode_data',
+                type: 'POST',
+                success: function (response) {
+                    var jsonData = JSON.parse(response.data_head);
+                    var columns = jsonData.columns;
+                    var index = jsonData.index;
+                    var data = jsonData.data;
+
+                    var table = '<table class="table-responsive row-border hover table table-striped table-bordered"><thead><tr>';
+                    columns.forEach(function (column) {
+                        table += '<th>' + column + '</th>';
+                    });
+                    table += '</tr></thead><tbody>';
+
+                    data.forEach(function (row) {
+                        table += '<tr>';
+                        row.forEach(function (cell) {
+                            table += '<td>' + cell + '</td>';
+                        });
+                        table += '</tr>';
+                    });
+
+                    table += '</tbody></table>';
+                    $('#dataPreview2').html(table);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+
+        $('#parseDates').on('click', function () {
+            $.ajax({
+                url: '/parse-date-and-calculate-age',
+                type: 'POST',
+                success: function (response) {
+                    var jsonData = JSON.parse(response.data_head);
+                    var columns = jsonData.columns;
+                    var index = jsonData.index;
+                    var data = jsonData.data;
+
+                    var table = '<table class="table-responsive row-border hover table table-striped table-bordered"><thead><tr>';
+                    columns.forEach(function (column) {
+                        table += '<th>' + column + '</th>';
+                    });
+                    table += '</tr></thead><tbody>';
+
+                    data.forEach(function (row) {
+                        table += '<tr>';
+                        row.forEach(function (cell) {
+                            table += '<td>' + cell + '</td>';
+                        });
+                        table += '</tr>';
+                    });
+
+                    table += '</tbody></table>';
+                    $('#dataPreview2').html(table);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+
+        $('#detectOutliers').on('click', function () {
+            $.ajax({
+                url: '/detect-outliers',
+                type: 'POST',
+                success: function (response) {
+                    var outliers = JSON.parse(response.outliers);
+                    var summary = '<h3>Outlier Summary</h3><ul>';
+                    for (var column in outliers) {
+                        summary += '<li>' + column + ': ' + outliers[column] + ' outliers</li>';
+                    }
+                    summary += '</ul>';
+                    $('#fileInfo').html(summary);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+
+        $('#handleOutliers').on('click', function () {
+            $.ajax({
+                url: '/handle-outliers',
+                type: 'POST',
+                success: function (response) {
+                    $('#fileInfo').html('<p>Outliers handled successfully.</p>');
+                    displayData(response, '');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+
+        $('#createNewFeatures').on('click', function () {
+            $.ajax({
+                url: '/create-features',
+                type: 'POST',
+                success: function (response) {
+                    displayData(response, '');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+
+        function dimensionalityReduction() {
+            const loader = document.getElementById('loader3');
+            loader.style.display = 'inline-block';
+            $.ajax({
+                url: '/dimensionality-reduction',
+                type: 'POST',
+                success: function (response) {
+                    loader.style.display = 'none';
+                    $('#fileInfoDR').html('<p>Dimensionality reduction performed successfully.</p>');
+                    // displayData(response, 'DR');
+                    // displayScatterPlot('scatterPlotBefore', JSON.parse(response.original_data), 'Before Dimensionality Reduction');
+                    displayScatterPlot('scatterPlotAfter', JSON.parse(response.pca_data), 'After Dimensionality Reduction');
+                    displayExplainedVariancePlot(response.explained_variance);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#fileInfoDR').html('<p>Error: ' + textStatus + '</p>');
+                }
+            });
+        }
+
+        function displayScatterPlot(containerId, data, title) {
+            var columns = data.columns;
+            var rows = data.data;
+            var trace = {
+                x: rows.map(row => row[0]),
+                y: rows.map(row => row[1]),
+                mode: 'markers',
+                type: 'scatter'
+            };
+
+            var layout = {
+                title: title,
+                xaxis: { title: columns[0] },
+                yaxis: { title: columns[1] }
+            };
+
+            Plotly.newPlot(containerId, [trace], layout);
+        }
+
+        function displayExplainedVariancePlot(explainedVariance) {
+            var trace = {
+                x: explainedVariance.map((_, i) => `PC${i + 1}`),
+                y: explainedVariance,
+                type: 'bar'
+            };
+
+            var layout = {
+                title: 'Variance Explained by Principal Components',
+                xaxis: { title: 'Principal Component' },
+                yaxis: { title: 'Explained Variance Ratio' }
+            };
+
+            Plotly.newPlot('explainedVariancePlot', [trace], layout);
+        }
+
+        function perform_clustering() {
+            const loader = document.getElementById('loader4');
+            loader.style.display = 'inline-block';
+            $.ajax({
+                url: '/perform-clustering',
+                type: 'POST',
+                success: function (response) {
+                    loader.style.display = 'none';
+                    $('#clustering-plot').html('');
+                    response.forEach(function (base64Image) {
+                        $('#clustering-plot').append('<img src="data:image/png;base64,' + base64Image + '"/><br>');
+                    });
+                    // $('#silhouette-score').html(response);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#silhouette-score').html('<p>Error: ' + textStatus + '</p>');
+                }
+            });
+        }
+
+        function visualization() {
+            const loader = document.getElementById('loader5');
+            loader.style.display = 'inline-block';
+            $.ajax({
+                url: '/visualization',
+                type: 'POST',
+                success: function (response) {
+                    loader.style.display = 'none';
+                    $('#visualization-plot').html('');
+                    response.forEach(function (base64Image) {
+                        $('#visualization-plot').append('<img src="data:image/png;base64,' + base64Image + '"/><br>');
+                    });
+                    // $('#silhouette-score').html(response);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown)
+                }
+            });
+        }
+
+        function displayData(response, suffix) {
+            displayDataPreview(response.data_head, suffix);
+            displayMissingValuesSummary(response.missing_values, suffix);
+            displayDataTypesSummary(response.data_types, suffix);
+            displayDescribeSummary(response.describe, suffix);
+        }
+
+        function setJsonInTextarea() {
+            const jsonData = {
+                'CustomerID': [3198208],
+                'Is PEP': [0],
+                'High Net Worth House-wife': [0],
+                'Expected Transaction Volume': [0],
+                'Source of Income': ['Pension'],
+                'Gender': ['M'],
+                'Subscribed Account Type': ['Aasan Account- Current'],
+                'Subscribed Financing Facility Type': ['First Pension Loan'],
+                'Subscribed Channels': ['ATM'],
+                'Country': ['PK'],
+                'Province': ['Punjab'],
+                'City': ['RAWALPINDI'],
+            };
+
+            document.getElementById('jsonData').value = JSON.stringify(jsonData, null, 4);
+        }
+
+        function predict() {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'inline-block'; // Show loader
+            $.ajax({
+                url: '/predict',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: document.getElementById('jsonData').value,
+                success: function (response) {
+                    $('#prediction').html(response['message'])
+                    loader.style.display = 'none'; // Hide loader
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown)
+                }
+            });
+        }
+
+        function cluster_analysis() {
+            $.ajax({
+                url: '/cluster_analysis',
+                type: 'POST',
+                success: function (data) {
+                    sessionStorage.setItem('plotsData', JSON.stringify(data.plots));
+                    console.log(JSON.stringify(data.plots))
+                    displayCharts(data.plots, document.getElementById('riskLevel').value);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown)
+                }
+            });
+        }
+
+        // document.getElementById('loadChartsBtn').addEventListener('click', () => {
+        //     fetch('/cluster_analysis', {
+        //         method: 'POST'
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         sessionStorage.setItem('plotsData', JSON.stringify(data.plots));
+        //         displayCharts(data.plots, document.getElementById('riskLevel').value);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
+        // });
+
+        document.getElementById('riskLevel').addEventListener('change', (event) => {
+            const riskLevel = event.target.value;
+            const plots = JSON.parse(sessionStorage.getItem('plotsData'));
+            displayCharts(plots, riskLevel);
+        });
+
+        function displayCharts(plots, riskLevel) {
+            const container = document.getElementById('chartsContainer');
+            container.innerHTML = '';
+
+            let row;
+            plots.forEach((plot, index) => {
+                if (plot.label === '' || plot.label === riskLevel) {
+                    if (index % 1 === 0) {
+                        row = document.createElement('div');
+                        row.className = 'row';
+                        container.appendChild(row);
+                    }
+
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.className = 'col';
+                    const img = document.createElement('img');
+                    img.src = `data:image/png;base64,${plot.img_base64}`;
+                    img.alt = `Plot ${index + 1}`;
+                    imgWrapper.appendChild(img);
+                    row.appendChild(imgWrapper);
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>
