@@ -1,10 +1,8 @@
 # Customer-Segmentation
 
-## Project Overview
-This project aims to provide a comprehensive analysis of customer segmentation and risk management in the banking sector. Using clustering techniques such as K-means, this project segments customers into distinct risk groups based on various features. It also provides insightful visualizations to help understand the risk profiles of different customer segments.
-
 ## Table of Contents
-- Project Overview
+- Project Summary
+- Novelty of The Project
 - Features
 - Installation
 - Usage
@@ -12,6 +10,16 @@ This project aims to provide a comprehensive analysis of customer segmentation a
 - Clustering
 - Visualization
 - Results
+
+## Project Summary
+This project aims to provide a comprehensive analysis of customer segmentation and risk management in the banking sector. Using clustering techniques such as K-means, this project segments customers into distinct risk groups based on various features. It also provides insightful visualizations to help understand the risk profiles of different customer segments.
+
+## Novelty of the Project
+The novelty of this project lies in its integrated approach combining multi-step data preprocessing, dimensionality reduction using PCA, and clustering with K-means. Additionally, the project features a comprehensive visualization suite and API integration for real-time data processing. This holistic approach not only ensures the accuracy and usability of the data but also provides actionable insights for risk management.
+
+## Design Diagram
+![image](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/3a92c8a5-c14e-44c9-822b-38512ccf3555)
+
 
 ## Features
 - **Data Ingestion and Preprocessing:**
@@ -79,16 +87,50 @@ Creation of APIs for seamless integration with existing banking systems and work
 - **Bar Graphs and Line Charts**: Show numerical feature distributions across clusters.
 
 ## Results
+### High-Risk Cluster - Subscribed Account Type Distribution
+![AccountHigh](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/7cfe6b05-89c1-4c3c-b2f3-e8fa03a2d5c6)
+Customers in the high-risk cluster predominantly hold FIRST Current Accounts and show significant activity in First Daily Profit Accounts.
 
-### Clustering Insights and Implications for Risk Management in Banking
+### Low-Risk Cluster - Subscribed Account Type Distribution
+![AccountLow](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/9c570040-4b5e-4034-914b-d231ee91e5c5)
+Low-risk customers are more likely to have Aasan Accounts and First Pension Accounts, indicating conservative financial behavior.
 
-The clustering analysis provided several valuable insights into the customer base and their associated risk levels. By segmenting customers into distinct clusters, we were able to identify patterns and characteristics that are crucial for effective risk management.
+### Medium-Risk Cluster - Subscribed Account Type Distribution
+![AccountMedium](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/294bb00c-2abe-4858-bfb0-6e6a2067212d)
+Medium-risk customers hold a balanced mix of account types, including FIRST Current Accounts and Repa Accounts.
 
-#### Key Insights
+### High-Risk Cluster - Subscribed Channels Distribution
+![ChannelsHigh](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/96559b46-ce6b-4ba6-8b4b-18835f54cc55)
+High-risk customers predominantly use ATMs and Mobile Apps, suggesting a preference for digital and quick access.
 
-1. **Identification of High-Risk Customers**: Customers with active PEP status and higher transaction volumes.
-2. **Segmentation of Medium-Risk Customers**: Customers with moderate transaction volumes.
-3. **Identification of Low-Risk Customers**: Customers with inactive PEP status and lower transaction volumes.
-4. **Customized Financial Products**: Design tailored financial products based on customer risk profiles.
-5. **Enhanced Risk Monitoring**: Continuous monitoring and dynamic updates to clustering models.
-6. **Improved Customer Retention**: Provide personalized services to enhance customer satisfaction and retention.
+### Low-Risk Cluster - Subscribed Channels Distribution
+![ChannelsLow](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/298abaa6-eca8-4ab3-9191-d3a5966eb8f3)
+Low-risk customers also prefer ATMs but show less digital engagement compared to high-risk customers.
+
+### Medium-Risk Cluster - Subscribed Channels Distribution
+![ChannelsMedium](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/34398032-90e5-4c1c-b8be-6f059262703b)
+Medium-risk customers display a balanced usage of ATMs and Mobile Apps, indicating moderate digital engagement.
+
+### High-Risk Cluster - Province Distribution
+![ProvinceHigh](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/f159c672-6090-40f7-b47b-70f5752ede94)
+High-risk customers are mainly concentrated in Punjab, followed by Sindh, indicating regional risk concentration.
+
+### Low-Risk Cluster - Province Distribution
+![ProvicneLow](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/29dda525-67c4-4567-b92f-8d33efb09cc9)
+Low-risk customers are also primarily from Punjab but show more distribution across other provinces.
+
+### Medium-Risk Cluster - Province Distribution
+![ProvinceMedium](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/949b67c1-010d-4bc8-bfc2-f35efb3d1853)
+Medium-risk customers are predominantly from Punjab, with significant representation in Sindh and other regions.
+
+### High-Risk Cluster - Source of Income Distribution
+![SrcIncomeHigh](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/dd935935-7bb0-4001-bc48-c1be2099bcdb)
+High-risk customers have diverse income sources, including self-employment in enterprises, agriculture, and livestock, indicating varied financial stability.
+
+### Low-Risk Cluster - Source of Income Distribution
+![SrcIncomeLow](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/5d91f326-e9fd-4513-8c03-619bb92200da)
+Low-risk customers primarily rely on pensions, salaries, and livestock, reflecting stable and predictable income sources.
+
+### Medium-Risk Cluster - Source of Income Distribution
+![SrcIncomeMedium](https://github.com/Marium-Hashmi/Customer-Segmentation/assets/33281835/4d92bcb5-8c73-4141-8c0e-61dedcf5d874)
+Medium-risk customers show a mix of self-employment in enterprises and livestock, with notable representation in agriculture and other sectors.
